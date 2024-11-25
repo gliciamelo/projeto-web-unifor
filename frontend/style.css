@@ -1,0 +1,87 @@
+/* Estilos personalizados */
+body {
+    background-color: #1c1f2b;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.login-container, .register-container {
+    background-color: #2a2d3e;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px; /* Aumentado de 400px para 500px */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.login-container h2, .register-container h2 {
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.form-control {
+    background-color: #3b3f52;
+    border: none;
+    color: #ffffff;
+}
+
+.form-control:focus {
+    background-color: #4a4e69;
+    color: #ffffff;
+    border-color: #5e81ac;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background-color: #5e81ac;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #4c6783;
+}
+
+a {
+    color: #5e81ac;
+}
+
+a:hover {
+    color: #3b4b62;
+    text-decoration: none;
+}
+/* Estilo para o texto da LGPD */
+.lgpd-text {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: #999999;
+    opacity: 0.7;
+}
+
+.lgpd-text:hover {
+    opacity: 1;
+    color: #cccccc;
+}
+body {
+    background-color: #1c1c1c; /* Fundo escuro */
+    color: #ffffff; /* Cor do texto */
+}
+
+.card {
+    background-color: #2c2c2c; /* Fundo do card mais escuro */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+.btn-primary:hover {
+    background-color: #357abd;
+    border-color: #357abd;
+}
+
+

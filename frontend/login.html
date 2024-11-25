@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Link do Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link para o seu arquivo CSS personalizado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="login-container">
+        <h2 class="text-center">Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Usuário</label>
+                <input type="email" class="form-control" id="email" placeholder="Digite seu usuário" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" class="form-control" id="password" placeholder="Digite sua senha" required>
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="loginUser()">Entrar</button>
+        </form>
+        <p class="text-center mt-3">
+            <a href="register.html">Não tem uma conta? Cadastre-se</a>
+        </p>
+    </div>
+
+    <!-- Scripts do Bootstrap e Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function loginUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await axios.post('http://localhost:4000/api/login', {
+                    email,
+                    password
+                });
+
+                console.log(response.data);
+
+                alert(response.data.message);
+
+                window.location.href = "admin.html"; 
+            } catch (error) {
+                console.error(error);
+
+                const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
+                alert(errorMessage);
+            }
+        }
+    </script>
+    <p class="lgpd-text">Este site segue as normas de segurança e privacidade conforme a LGPD.</p>
+</body>
+</html>

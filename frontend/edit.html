@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário</title>
+    <!-- Link do Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link para o arquivo CSS personalizado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="register-container">
+        <h2 class="text-center">Editar Usuário</h2>
+        <form id="editForm">
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" placeholder="Digite seu nome" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Nova Senha</label>
+                <input type="password" class="form-control" id="password" placeholder="Digite sua nova senha">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar Nova Senha</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme sua nova senha">
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="updateUser()">Atualizar</button>
+        </form>
+        <p class="text-center mt-3">
+            <a href="admin.html">Voltar para a lista de usuários</a>
+        </p>
+    </div>
+
+    <!-- Scripts do Bootstrap e Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Obtém o ID do usuário da URL
+        const userId = new URLSearchParams(window.location.search).get('id');
+
+        // Função para carregar os dados do usuário e preencher o formulário
+        async function loadUser() {
+            try {
+                const response = await axios.get(`http://localhost:4000/api/users/${userId}`);
+                const user = response.data;
+
+                // Preenche os campos do formulário com os dados do usuário
+                document.getElementById('name').value = user.name;
+                document.getElementById('email').value = user.email;
+            } catch (error) {
+                console.error("Erro ao carregar usuário:", error);
+                alert("Erro ao carregar usuário!");
+            }
+        }
+
+        // Função para atualizar os dados do usuário
+        async function updateUser() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password && password !== confirmPassword) {
+                alert("As senhas não coincidem!");
+                return;
+            }
+
+            try {
+                await axios.put(`http://localhost:4000/api/users/${userId}`, {
+                    name,
+                    email,
+                    ...(password && { password }) // Atualiza a senha apenas se ela for fornecida
+                });
+                alert("Usuário atualizado com sucesso!");
+                window.location.href = "admin.html"; // Redireciona para a lista de usuários
+            } catch (error) {
+                console.error("Erro ao atualizar usuário:", error);
+                alert("Erro ao atualizar usuário!");
+            }
+        }
+
+        // Carrega os dados do usuário ao carregar a página
+        window.onload = loadUser;
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Administrativa</title>
+    <!-- Link do Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Gestão de Usuários</h2>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Linhas de usuários serão carregadas aqui -->
+            </tbody>
+        </table>
+        <button onclick="backToIndex()" class="btn btn-danger btn-sm">Desconectar</button>
+    </div>
+
+    <!-- Scripts do Bootstrap e Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function loadUsers() {
+            try {
+                const response = await axios.get('http://localhost:4000/api/users');
+                const users = response.data;
+                const userTableBody = document.getElementById('userTableBody');
+                userTableBody.innerHTML = '';
+
+                users.forEach(user => {
+                    const row = `
+                        <tr>
+                            <td>${user._id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>
+                                <button onclick="editUser('${user._id}')" class="btn btn-warning btn-sm">Editar</button>
+                                <button onclick="deleteUser('${user._id}')" class="btn btn-danger btn-sm">Excluir</button>
+                            </td>
+                        </tr>
+                    `;
+                    userTableBody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error(error);
+                alert('Erro ao carregar usuários.');
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+
+            try {
+                await axios.delete(`http://localhost:4000/api/users/${userId}`);
+                alert('Usuário excluído com sucesso!');
+                loadUsers();
+            } catch (error) {
+                console.error(error);
+                alert('Erro ao excluir usuário.');
+            }
+        }
+
+        async function editUser(userId) {
+            window.location.href = `edit.html?id=${userId}`;
+        }
+
+        async function backToIndex() {
+            window.location.href = 'index.html';
+        }
+        // Carrega a lista de usuários ao carregar a página
+        window.onload = loadUsers;
+    </script>
+</body>
+</html>
